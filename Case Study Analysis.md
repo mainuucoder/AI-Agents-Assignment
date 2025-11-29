@@ -66,4 +66,3 @@
 
 **Simulation Link**: 
 
-*Note: Replace [username] with actual GitHub username. Simulation demonstrates agent decision workflows using sample manufacturing data.*
