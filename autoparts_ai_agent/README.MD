@@ -21,9 +21,6 @@ Simulation of AI Quality Control Agents for automotive manufacturing using n8n w
 3. **Import** the JSON file
 4. **Activate** workflow to see real-time simulation
 
-### Option 2: Video Demonstration
-Watch the complete simulation: [YouTube Demo](https://youtu.be/your-video-id)
-
 ### Option 3: Screenshot Evidence
 View `/screenshots/` folder for:
 - ✅ Complete workflow in n8n
