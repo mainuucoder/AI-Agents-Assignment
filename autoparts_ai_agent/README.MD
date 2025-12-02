@@ -13,11 +13,29 @@ Simulation of AI Quality Control Agents for automotive manufacturing using n8n w
 - `workflows/autoparts_ai_agent.json` - Complete n8n workflow
 - `screenshots/` - Execution proofs
 
-## 🚀 How to Run
-1. Import JSON file into n8n.io
-2. Connect Google Sheets credentials
-3. Activate workflow
-4. Monitor execution in n8n dashboard
+## 🎥 Live Demo & Simulation Evidence
+
+### Option 1: Import and Run
+1. **Download** `workflows/autoparts_ai_agent.json`
+2. **Go to** [n8n.io](https://n8n.io) → "Try for free"
+3. **Import** the JSON file
+4. **Activate** workflow to see real-time simulation
+
+### Option 2: Video Demonstration
+Watch the complete simulation: [YouTube Demo](https://youtu.be/your-video-id)
+
+### Option 3: Screenshot Evidence
+View `/screenshots/` folder for:
+- ✅ Complete workflow in n8n
+- ✅ Google Sheets with real data
+- ✅ Switch routing working
+- ✅ Email alert simulation
+- ✅ Execution history
+
+### Credentials for Testing:
+- **n8n Workflow:** Included as JSON
+- **Google Sheets:** Sample data exported as CSV
+- **All configurations:** Documented below
 
 ## 📊 Results
 - Defect detection rate: 15% (configurable)
