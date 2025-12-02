@@ -1,0 +1,420 @@
+{
+  "name": "Quality_Control_Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            },
+            {},
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -816,
+        16
+      ],
+      "id": "62ddf9d0-ca32-4db4-83d7-d79e6c3fe750",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// AutoParts Inc. - Quality Control Simulation\n// Simulating defect detection for automotive parts\n\nconst defects = [];\nconst random = Math.random();\n\nif (random < 0.15) {  // Real 15% defect rate\n  defects.push('scratch', 'misalignment');\n} else if (random < 0.20) {  // 5% crack defect\n  defects.push('crack');\n\n  console.log('🚨 DEFECT DETECTED: crack');\n} else {\n  console.log('✅ Product passed inspection');\n}\n\n// Build inspection result\nconst inspectionResult = {\n  timestamp: new Date().toISOString(),\n  product_id: `PROD-${Math.floor(Math.random() * 1000)}`,\n  batch_id: `BATCH-${Math.floor(Math.random() * 100)}`,\n  station: `QC-Station-${Math.floor(Math.random() * 3 + 1)}`,\n  defects: defects,\n  severity: defects.length > 0 ? 'HIGH' : 'LOW',\n  inspector: 'AI_Agent_QC_v1.0',\n  inspection_duration_ms: Math.floor(Math.random() * 500) + 100\n};\n\n// For debugging in n8n\nconsole.log('QC Inspection Result:', JSON.stringify(inspectionResult, null, 2));\n\n// Return the result - IMPORTANT: Use this exact format\nreturn [{\n  json: inspectionResult\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        -192
+      ],
+      "id": "535f605f-a9e2-46b3-b14c-b49b33bc258a",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "mode": "expression",
+        "numberOutputs": 2,
+        "output": "={{$json.defects.length > 0}}",
+        "looseTypeValidation": true
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -528,
+        16
+      ],
+      "id": "c006bf4a-b475-4787-ae88-633312827adc",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1rezrj116HRzBMbw3Zc3YJya0OtwE_8IuXZOopqRQttY",
+          "mode": "list",
+          "cachedResultName": "AutoParts_QC_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rezrj116HRzBMbw3Zc3YJya0OtwE_8IuXZOopqRQttY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "pass",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rezrj116HRzBMbw3Zc3YJya0OtwE_8IuXZOopqRQttY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "product_id",
+              "displayName": "product_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "station",
+              "displayName": "station",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "defects",
+              "displayName": "defects",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "severity",
+              "displayName": "severity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "inspector",
+              "displayName": "inspector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "inspection_duration_ms",
+              "displayName": "inspection_duration_ms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -208,
+        64
+      ],
+      "id": "d15af086-be0f-4b16-b8ca-ebd2f778ae94",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gFneS8Rg7eOEZLBT",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": " isaacmaina8975@gmail.com",
+        "subject": "AI AGENT",
+        "message": "hello",
+        "options": {
+          "senderName": "daniel"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        144,
+        80
+      ],
+      "id": "89f2c8b2-7c31-4b7b-8344-13be4dd9e94a",
+      "name": "Send a message",
+      "webhookId": "27c96afb-e724-4a7a-8073-3fdf7545ebe8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AuZUhd0aS9dwAbvo",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1rezrj116HRzBMbw3Zc3YJya0OtwE_8IuXZOopqRQttY",
+          "mode": "list",
+          "cachedResultName": "AutoParts_QC_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rezrj116HRzBMbw3Zc3YJya0OtwE_8IuXZOopqRQttY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1134563698,
+          "mode": "list",
+          "cachedResultName": "defects",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rezrj116HRzBMbw3Zc3YJya0OtwE_8IuXZOopqRQttY/edit#gid=1134563698"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "product_id": "{{$json.product_id}}",
+            "timestamp": "$json.timestamp",
+            "defects": "{{$json.defects.join(\", \")}}",
+            "severity": " {{$json.severity}}",
+            "inspector": "\"Email sent\""
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_id",
+              "displayName": "product_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "batch_id",
+              "displayName": "batch_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "station",
+              "displayName": "station",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "defects",
+              "displayName": "defects",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "severity",
+              "displayName": "severity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "inspector",
+              "displayName": "inspector",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "inspection_duration_ms",
+              "displayName": "inspection_duration_ms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        176,
+        -176
+      ],
+      "id": "daaec6db-b18a-4300-88a6-be623d0b3d22",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "gFneS8Rg7eOEZLBT",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format data for Google Sheets\nconst item = $json;\n\nconst formattedData = {\n  timestamp: item.timestamp,\n  product_id: item.product_id,\n  // Fix: Remove duplicate \"defects:\" and remove {{ }}\n  defects: item.defects && item.defects.length > 0 ? item.defects.join(\", \") : \"NONE\",\n  severity: item.severity,\n  action: \"Email sent\"\n};\n\n// Return formatted data\nreturn [{\n  json: formattedData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        -208
+      ],
+      "id": "84b2c669-64a9-480f-91bc-a266d35ea331",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "fb36d2ba-fb7f-4e15-a6bf-ca8ff607f9d9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "74a1ea4dd2cd3f5a0a0afe13be9a8b20e8c3a310049f859574e36868e69c3efe"
+  },
+  "id": "rXISLEZFCBZYyosn",
+  "tags": []
+}
